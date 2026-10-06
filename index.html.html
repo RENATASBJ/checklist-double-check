@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Checklist de Double Check: Precatório</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@600;700&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+:root{--bg:#f3f5f8;--card:#fff;--ink:#17202e;--mute:#5d6878;--line:#d5dbe4;--accent:#1f3a5f;--ok:#1b7a4b;--okbg:#e0f2e8;--pend:#b3261e;--pendbg:#fbe4e2;--na:#5d6878;--nabg:#e8ebf0;--bad:#b3261e;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151d;--card:#18202b;--ink:#e8ecf2;--mute:#9aa6b6;--line:#2c3746;--accent:#8db3e6;--ok:#6fd0a0;--okbg:#18362a;--pend:#ff8f86;--pendbg:#3d1f1d;--na:#9aa6b6;--nabg:#232d3a;--bad:#ff8f86}}
+:root[data-theme="dark"]{--bg:#10151d;--card:#18202b;--ink:#e8ecf2;--mute:#9aa6b6;--line:#2c3746;--accent:#8db3e6;--ok:#6fd0a0;--okbg:#18362a;--pend:#ff8f86;--pendbg:#3d1f1d;--na:#9aa6b6;--nabg:#232d3a;--bad:#ff8f86}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Source Sans 3",system-ui,sans-serif}
+.wrap{max-width:820px;margin:0 auto;padding:20px 16px 80px}
+h1{font:700 1.7rem/1.2 "Source Serif 4",Georgia,serif;margin:8px 0 4px;color:var(--accent)}
+.sub{color:var(--mute);margin:0 0 18px}
+.head{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.head label{display:flex;flex-direction:column;font-weight:600;font-size:.9rem;gap:4px}
+.head .full{grid-column:1/-1}
+input[type=text],input[type=date],textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;width:100%}
+input:focus,textarea:focus,button:focus-visible,.seg label:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:1px}
+.invalid{border-color:var(--bad)!important;background:var(--pendbg)!important}
+.err{color:var(--bad);font-size:.85rem;font-weight:400;min-height:0}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding:10px 0;margin-top:10px;border-bottom:1px solid var(--line)}
+.who{font-weight:600;font-size:.95rem;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.who span:last-child{color:var(--mute);font-weight:400}
+.prog{height:6px;background:var(--nabg);border-radius:3px;margin-top:6px;overflow:hidden}
+.prog i{display:block;height:100%;width:0;background:var(--ok);transition:width .2s}
+h2{font:600 1.15rem "Source Serif 4",Georgia,serif;margin:26px 0 8px;color:var(--accent)}
+.item{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--line);border-radius:8px;padding:12px;margin-bottom:8px}
+.item[data-s=ok]{border-left-color:var(--ok)}.item[data-s=pend]{border-left-color:var(--pend)}.item[data-s=na]{border-left-color:var(--na)}
+.item p{margin:0 0 8px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start}
+.seg{display:flex;gap:6px}
+.seg label{cursor:pointer}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg span{display:inline-block;padding:5px 12px;border:1px solid var(--line);border-radius:999px;font-size:.88rem;font-weight:600;color:var(--mute);background:var(--card)}
+.seg input[value=ok]:checked+span{background:var(--okbg);color:var(--ok);border-color:var(--ok)}
+.seg input[value=pend]:checked+span{background:var(--pendbg);color:var(--pend);border-color:var(--pend)}
+.seg input[value=na]:checked+span{background:var(--nabg);color:var(--na);border-color:var(--na)}
+.item textarea{flex:1 1 220px;min-height:36px;height:36px;resize:vertical}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
+button{font:inherit;font-weight:600;border-radius:8px;padding:10px 16px;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--bg)}
+button.sec{background:transparent;color:var(--accent)}
+.msg{margin-top:10px;font-weight:600;min-height:1.4em}
+.note{color:var(--mute);font-size:.85rem;margin-top:14px}
+@media (max-width:560px){.head{grid-template-columns:1fr}}
+@media print{.bar .prog,.actions,.note,.msg{display:none}.bar{position:static}body{background:#fff;color:#000}.item{break-inside:avoid}.item textarea{border:none;padding:0;height:auto}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Checklist de Double Check: Precatório</h1>
+<p class="sub">Preencha o cliente e a proposta antes de começar. Marque cada item como OK, Pendência ou N/A.</p>
+
+<div class="head">
+<label>Nome do cliente *<input type="text" id="cliente" autocomplete="off"><span class="err" id="e-cliente"></span></label>
+<label>Número da proposta *<input type="text" id="proposta" autocomplete="off"><span class="err" id="e-proposta"></span></label>
+<label>Responsável pela análise<input type="text" id="resp" autocomplete="off"></label>
+<label>Data<input type="date" id="data"></label>
+</div>
+
+<div class="bar">
+<div class="who"><span id="who">Cliente e proposta não informados</span><span id="count">0 de 0 itens</span></div>
+<div class="prog"><i id="pbar"></i></div>
+</div>
+
+<div id="list"></div>
+
+<div class="actions">
+<button id="copy">Copiar resumo</button>
+<button id="print" class="sec">Imprimir / salvar em PDF</button>
+<button id="clear" class="sec">Limpar tudo</button>
+</div>
+<div class="msg" id="msg" role="status"></div>
+<p class="note">O que você preenche fica salvo apenas neste navegador. Para guardar o resultado, copie o resumo ou salve em PDF.</p>
+</div>
+
+<script>
+const S=[
+["1. Identificação e legitimidade das partes",[
+"Validar quem é o cliente (nome completo, CPF, dados cadastrais)",
+"Conferir se o cliente confere com o beneficiário do precatório",
+"Verificar necessidade de incluir outra pessoa/beneficiário como anuente ou avalista (cônjuge, herdeiros, meeiros)",
+"Verificar se o cliente é alfabetizado ou se não assina (se não assina: adequar a proposta e solicitar documentos necessários, procuração/escritura pública)"]],
+["2. Documentos e biometria",[
+"Comparar documentos enviados × documentos do processo",
+"Biometria × documento enviado",
+"Biometria × documento constante no processo",
+"Documentoscopia (autenticidade, adulterações, qualidade das imagens, validade)"]],
+["3. Representação e contratação",[
+"Verificar quais advogados constam na procuração e no contrato (e se coincidem)",
+"Verificar se o cliente contratou mais de um escritório (validar honorários e se há dever de mais de um honorário)",
+"Validar o percentual de honorários reservados",
+"Se o cliente for o próprio advogado, verificar se os honorários estão destacados"]],
+["4. Objeto do processo",[
+"Verificar o assunto do processo",
+"Se versar sobre benefício por doença: identificar qual a doença",
+"Verificar, no nosso sistema, quem vai participar do contrato e se a forma de contratação é suficiente para suprir a condição decorrente da doença"]],
+["5. Situação processual",[
+"Verificar se terceiros se manifestaram nos autos ou têm interesse (honorários de outros advogados, credores, herdeiros)",
+"Verificar se transitou em julgado",
+"Verificar cálculos e homologação",
+"Verificar se resta algum recurso ou impugnação pendente de decisão",
+"Verificar se há prazo em aberto (expedientes, intimações, publicações)"]],
+["6. Penhora e cessão de crédito",[
+"Validar se há penhora (inclusive no rosto dos autos)",
+"Validar se há cessão de crédito (total ou parcial, anterior)"]],
+["7. Precatório",[
+"Verificar se foi expedido com dados corretos",
+"Confirmar que foi transmitido",
+"Verificar descontos: IR, PSS, FUSEX, pensão militar",
+"Verificar se há bloqueio no precatório. Se positivo: qual a razão e se é impeditivo",
+"Validar a fonte pagadora/orçamentária"]],
+["8. Conferência com o cadastro no sistema",[
+"Valor","Data-base","Descontos incluídos corretamente","Número do precatório","Número do processo originário","Número do cumprimento de sentença","Réu (ente devedor)"]],
+["9. Documentos complementares",[
+"Validar se precisa de minuta complementar (escritura/procuração)",
+"Validar se precisa de declaração complementar (renúncia aos honorários, residência, termo de quitação ADV, declaração de próprio punho indicando capacidade e outros)"]],
+["10. Encerramento",[
+"Realizar os ajustes necessários (cadastro, documentos, contratos)",
+"Solicitar as complementações necessárias"]]
+];
+const KEY="chk-precatorio-v1",$=id=>document.getElementById(id);
+let st={f:{},s:{},o:{}},items=[];
+try{const r=localStorage.getItem(KEY);if(r)st=JSON.parse(r)}catch(e){}
+st.f=st.f||{};st.s=st.s||{};st.o=st.o||{};
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}};
+const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+
+let h="",n=0;
+S.forEach(([t,a])=>{h+=`<h2>${t}</h2>`;a.forEach(x=>{const i=n++;items.push({sec:t,txt:x});
+h+=`<div class="item" id="it${i}" data-s=""><p>${esc(x)}</p><div class="row"><div class="seg" role="radiogroup" aria-label="Status">`+
+[["ok","OK"],["pend","Pendência"],["na","N/A"]].map(([v,l])=>`<label><input type="radio" name="r${i}" value="${v}" data-i="${i}"><span>${l}</span></label>`).join("")+
+`</div><textarea data-o="${i}" placeholder="Observação" aria-label="Observação"></textarea></div></div>`})});
+$("list").innerHTML=h;
+
+function paint(){
+ let done=0,ok=0,pend=0;
+ items.forEach((_,i)=>{const s=st.s[i]||"";$("it"+i).dataset.s=s;if(s)done++;if(s=="ok")ok++;if(s=="pend")pend++;
+  const r=document.querySelector(`input[name=r${i}][value=${s||"x"}]`);if(r)r.checked=true;});
+ $("count").textContent=`${done} de ${items.length} itens · ${pend} pendência${pend==1?"":"s"}`;
+ $("pbar").style.width=(done/items.length*100)+"%";
+ const c=$("cliente").value.trim(),p=$("proposta").value.trim();
+ $("who").textContent=(c||p)?`${c||"Cliente não informado"} · Proposta ${p||"não informada"}`:"Cliente e proposta não informados";
+}
+["cliente","proposta","resp","data"].forEach(id=>{const el=$(id);el.value=st.f[id]||"";
+ el.addEventListener("input",()=>{st.f[id]=el.value;el.classList.remove("invalid");$("e-"+id)&&($("e-"+id).textContent="");save();paint()})});
+if(!$("data").value){$("data").value=new Date().toISOString().slice(0,10);st.f.data=$("data").value}
+document.querySelectorAll("textarea[data-o]").forEach(t=>{t.value=st.o[t.dataset.o]||"";
+ t.addEventListener("input",()=>{st.o[t.dataset.o]=t.value;save()})});
+$("list").addEventListener("change",e=>{const i=e.target.dataset.i;if(i!==undefined){st.s[i]=e.target.value;save();paint()}});
+
+function need(){
+ let bad=null;
+ [["cliente","Informe o nome do cliente."],["proposta","Informe o número da proposta."]].forEach(([id,m])=>{
+  if(!$(id).value.trim()){$(id).classList.add("invalid");$("e-"+id).textContent=m;bad=bad||$(id)}});
+ if(bad){bad.focus();$("msg").textContent="Preencha o nome do cliente e o número da proposta.";return false}
+ $("msg").textContent="";return true}
+
+function resumo(){
+ const L={ok:"OK",pend:"PENDÊNCIA",na:"N/A"};
+ let t=`CHECKLIST DE DOUBLE CHECK: PRECATÓRIO\nCliente: ${$("cliente").value.trim()}\nProposta: ${$("proposta").value.trim()}\nResponsável: ${$("resp").value.trim()||"-"}\nData: ${$("data").value.split("-").reverse().join("/")}\n`;
+ let last="";
+ items.forEach((it,i)=>{if(it.sec!==last){t+=`\n${it.sec}\n`;last=it.sec}
+  t+=`[${L[st.s[i]]||"NÃO ANALISADO"}] ${it.txt}${st.o[i]?`\n    Obs.: ${st.o[i]}`:""}\n`});
+ const pend=items.map((it,i)=>st.s[i]=="pend"?`- ${it.txt}${st.o[i]?` (${st.o[i]})`:""}`:null).filter(Boolean);
+ t+=`\nPENDÊNCIAS (${pend.length})\n${pend.join("\n")||"Nenhuma"}\n`;
+ return t}
+
+$("copy").onclick=async()=>{if(!need())return;const t=resumo();
+ try{await navigator.clipboard.writeText(t);$("msg").textContent="Resumo copiado."}
+ catch(e){const a=document.createElement("textarea");a.value=t;document.body.appendChild(a);a.select();
+  try{document.execCommand("copy");$("msg").textContent="Resumo copiado."}catch(_){$("msg").textContent="Não foi possível copiar. Use Imprimir / salvar em PDF."}a.remove()}};
+$("print").onclick=()=>{if(!need())return;document.title=`Checklist - ${$("cliente").value.trim()} - Proposta ${$("proposta").value.trim()}`;window.print()};
+$("clear").onclick=()=>{if(!confirm("Limpar todos os campos e marcações desta análise?"))return;
+ st={f:{},s:{},o:{}};save();["cliente","proposta","resp"].forEach(id=>$(id).value="");
+ $("data").value=new Date().toISOString().slice(0,10);st.f.data=$("data").value;
+ document.querySelectorAll("textarea[data-o]").forEach(t=>t.value="");
+ document.querySelectorAll(".seg input").forEach(r=>r.checked=false);$("msg").textContent="";paint()};
+paint();
+</script>
+</body>
+</html>
